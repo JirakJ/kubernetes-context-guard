@@ -1,0 +1,69 @@
+<idea-plugin>
+    <id>com.jakubjirak.k8sguard</id>
+    <name>Kubernetes Context Guard</name>
+    <vendor email="jakub@jirak.dev" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
+
+    <description><![CDATA[
+    <h2>Kubernetes Context Guard</h2>
+    <p>Prominently displays your current kubectl context in the IDE status bar with color-coded environment
+    indicators. Prevents accidental actions on production clusters with confirmation dialogs and visual warnings.</p>
+
+    <h3>Features</h3>
+    <ul>
+        <li><b>Status bar widget</b> — always see which cluster you're connected to</li>
+        <li><b>Color coding</b> — 🔴 production, 🟡 staging, 🟢 development</li>
+        <li><b>Production guard</b> — confirmation dialog when switching to production context</li>
+        <li><b>Quick context switch</b> — change context without leaving the IDE</li>
+        <li><b>Team rules</b> — share context classification via <code>.k8s-guard.yaml</code></li>
+    </ul>
+
+    <h3>Part of DevOps Safety Kit</h3>
+    <p>Pairs with <b>Terminal Safety Rails</b> for comprehensive protection against accidental
+    production changes.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Status bar widget -->
+        <statusBarWidgetFactory
+                id="com.jakubjirak.k8sguard.statusBarWidget"
+                implementation="com.jakubjirak.k8sguard.ui.ContextStatusBarWidgetFactory"
+                order="first"/>
+
+        <!-- Settings page -->
+        <applicationConfigurable
+                id="com.jakubjirak.k8sguard.settings"
+                parentId="tools"
+                displayName="Kubernetes Context Guard"
+                instance="com.jakubjirak.k8sguard.settings.K8sGuardConfigurable"/>
+
+        <!-- Persistent settings -->
+        <applicationService
+                serviceImplementation="com.jakubjirak.k8sguard.settings.K8sGuardSettings"/>
+
+        <!-- Notification group -->
+        <notificationGroup
+                id="K8s Context Guard"
+                displayType="BALLOON"
+                toolWindowId="K8s Context Guard"/>
+
+        <!-- Startup activity -->
+        <postStartupActivity
+                implementation="com.jakubjirak.k8sguard.K8sGuardStartupActivity"/>
+    </extensions>
+
+    <applicationListeners>
+    </applicationListeners>
+
+    <actions>
+        <action id="com.jakubjirak.k8sguard.SwitchContextAction"
+                class="com.jakubjirak.k8sguard.ui.SwitchContextAction"
+                text="Switch Kubernetes Context"
+                description="Quickly switch kubectl context"
+                icon="AllIcons.Actions.Execute">
+            <keyboard-shortcut first-keystroke="control shift K" keymap="$default"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
