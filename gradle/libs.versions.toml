@@ -5,6 +5,8 @@ snakeyaml = "2.3"
 junit = "5.11.4"
 detekt = "1.23.7"
 
+proguard = "7.6.1"
+
 [libraries]
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 junit-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
