@@ -38,7 +38,7 @@ dependencies {
 
 intellijPlatform {
     pluginConfiguration {
-        id = providers.gradleProperty("pluginGroup")
+        id = providers.gradleProperty("pluginId")
         name = providers.gradleProperty("pluginName")
         version = providers.gradleProperty("pluginVersion")
 
