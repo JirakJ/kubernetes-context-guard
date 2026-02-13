@@ -1,4 +1,4 @@
-# Kubernetes Context Guard — Git Enhancement Specifikace
+# KubeContext Safety — Git Enhancement Specifikace
 
 **Verze:** 2026.2.1
 **Status:** Plánováno

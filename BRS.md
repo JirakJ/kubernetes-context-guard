@@ -1,4 +1,4 @@
-# Kubernetes Context Guard — Business Requirements Specification (BRS)
+# KubeContext Safety — Business Requirements Specification (BRS)
 
 **Verze:** 2026.2.1
 **Autor:** Jakub Jirák
@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-Kubernetes Context Guard je jednoduchý, virální plugin zabraňující nechtěným akcím na produkčním Kubernetes clusteru. Vstupní bod do DevOps Safety Kit ekosystému — free lead-gen s upsell na Terminal Safety Rails a paid features.
+KubeContext Safety je jednoduchý, virální plugin zabraňující nechtěným akcím na produkčním Kubernetes clusteru. Vstupní bod do DevOps Safety Kit ekosystému — free lead-gen s upsell na Terminal Safety Rails a paid features.
 
 ---
 

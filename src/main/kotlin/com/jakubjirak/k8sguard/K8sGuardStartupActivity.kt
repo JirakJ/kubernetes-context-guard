@@ -13,7 +13,7 @@ class K8sGuardStartupActivity : ProjectActivity {
 
     override suspend fun execute(project: Project) {
         try {
-            LOG.info("Kubernetes Context Guard starting up")
+            LOG.info("KubeContext Safety starting up")
 
             val watcher = KubeConfigWatcher.getInstance()
             watcher.start()
@@ -21,9 +21,9 @@ class K8sGuardStartupActivity : ProjectActivity {
             val guard = ProductionGuardService.getInstance()
             guard.start()
 
-            LOG.info("Kubernetes Context Guard started successfully")
+            LOG.info("KubeContext Safety started successfully")
         } catch (e: Exception) {
-            LOG.warn("Failed to start Kubernetes Context Guard", e)
+            LOG.warn("Failed to start KubeContext Safety", e)
         }
     }
 

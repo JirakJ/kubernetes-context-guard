@@ -1,4 +1,4 @@
-# Kubernetes Context Guard — Software Requirements Specification (SRS)
+# KubeContext Safety — Software Requirements Specification (SRS)
 
 **Verze:** 2026.2.1
 **Autor:** Jakub Jirák
@@ -10,7 +10,7 @@
 ## 1. Úvod
 
 ### 1.1 Účel
-Kubernetes Context Guard zobrazuje aktuální kubectl kontext prominentně v IDE a varuje před akcemi na produkčním clusteru. Prevence nechtěného deploye/delete na produkci.
+KubeContext Safety zobrazuje aktuální kubectl kontext prominentně v IDE a varuje před akcemi na produkčním clusteru. Prevence nechtěného deploye/delete na produkci.
 
 ### 1.2 Rozsah
 Plugin monitoruje `~/.kube/config`, zobrazuje aktuální kontext ve status baru s barevným kódováním a interceptuje K8s akce v IDE.

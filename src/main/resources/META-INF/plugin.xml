@@ -1,10 +1,10 @@
 <idea-plugin>
-    <id>com.jakubjirak.kubernetescontextguard</id>
-    <name>Kubernetes Context Guard</name>
+    <id>com.jakubjirak.kubecontextsafety</id>
+    <name>KubeContext Safety</name>
     <vendor email="jakub@jirak.dev" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
 
     <description><![CDATA[
-    <h2>Kubernetes Context Guard</h2>
+    <h2>KubeContext Safety</h2>
     <p>Prominently displays your current kubectl context in the IDE status bar with color-coded environment
     indicators. Prevents accidental actions on production clusters with confirmation dialogs and visual warnings.</p>
 
@@ -36,7 +36,7 @@
         <applicationConfigurable
                 id="com.jakubjirak.k8sguard.settings"
                 parentId="tools"
-                displayName="Kubernetes Context Guard"
+                displayName="KubeContext Safety"
                 instance="com.jakubjirak.k8sguard.settings.K8sGuardConfigurable"/>
 
         <!-- Persistent settings -->

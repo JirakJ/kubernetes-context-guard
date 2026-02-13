@@ -1,4 +1,4 @@
-# Kubernetes Context Guard — Implementační plán
+# KubeContext Safety — Implementační plán
 
 **Verze:** 2026.2.1
 **Status:** Připraveno k implementaci
