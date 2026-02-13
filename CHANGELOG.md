@@ -1,5 +1,11 @@
 # Changelog
 
+## [2026.2.4] - 2026-02-13
+
+### Changed
+- Renamed plugin ID to `com.jakubjirak.kubernetescontextguard` (marketplace conflict resolution)
+
+
 ## [2026.2.3] - 2026-02-13
 
 ### Changed

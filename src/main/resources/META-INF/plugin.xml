@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>com.jakubjirak.k8sguard</id>
+    <id>com.jakubjirak.kubernetescontextguard</id>
     <name>Kubernetes Context Guard</name>
     <vendor email="jakub@jirak.dev" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
 
