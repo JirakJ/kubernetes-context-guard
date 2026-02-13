@@ -232,6 +232,42 @@
 - [ ] Marketplace listing (DevOps Safety Kit branding)
 - [ ] Git tag `v2026.2.1`
 
+## Fáze 13: Git Enhancement — Branch-to-Cluster Mapping
+
+- [ ] `BranchClusterMapper.kt` — pattern matching branch → cluster
+- [ ] `BranchChangeListener.kt` — Git4Idea listener pro checkout events
+- [ ] `ClusterSwitchSuggestion.kt` — balloon notification s „Switch Context" action
+- [ ] `MismatchWarningService.kt` — periodická kontrola branch-cluster konzistence
+- [ ] `BranchClusterMapping.kt`, `BranchClusterStatus.kt`, `MatchStatus.kt` — datový model
+- [ ] Default mapping: `feature/*` → dev, `main` → staging, `release/*` → prod
+- [ ] Team-shared mapping přes `.k8s-guard.yaml` v repo root
+- [ ] Confirmation dialog při přepnutí na production cluster
+- [ ] Unit testy pro pattern matching a mismatch detection
+
+## Fáze 14: Git Enhancement — Gitflow-Aware Safety
+
+- [ ] `GitflowSafetyEngine.kt` — mapování branch type → safety level
+- [ ] `DestructiveOperationDetector.kt` — regex matching na kubectl příkazy
+- [ ] `TerminalCommandInterceptor.kt` — IntelliJ Terminal API listener
+- [ ] `AuditLogService.kt` — persisted log K8s operací
+- [ ] `CooldownTimer.kt` — timer po context switch, blokuje operace po dobu cooldown
+- [ ] `BranchSafetyRule.kt`, `SafetyLevel.kt`, `AuditLogEntry.kt` — datový model
+- [ ] Safety levels: LOW (feature), MEDIUM (develop), HIGH (main), CRITICAL (release/hotfix)
+- [ ] Double confirmation pro destructive operace na CRITICAL úrovni
+- [ ] Unit testy pro safety engine a operation detection
+
+## Fáze 15: Git Enhancement — Deployment Tracking
+
+- [ ] `DeploymentTagScanner.kt` — `git tag -l "deployed/*"` parser
+- [ ] `DeploymentStatusService.kt` — project-level service, agregace per cluster
+- [ ] `DeploymentDiffCalculator.kt` — `git log deployed/prod/latest..HEAD` pro unreleased changes
+- [ ] `DeploymentTimelinePanel.kt` — vizualizace deploymentů v tool window
+- [ ] `DeploymentGutterProvider.kt` — gutter ikony v Git log view
+- [ ] `DeploymentInfo.kt`, `ClusterDeploymentStatus.kt`, `DeploymentTimeline.kt` — datový model
+- [ ] Konfigurovatelný tag pattern: `deployed/{cluster}/{version}`
+- [ ] „What's deployed?" quick action přes Search Everywhere
+- [ ] Unit testy pro tag parsing a diff calculation
+
 ---
 
 ## Budoucí fáze (Paid)
