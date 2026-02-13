@@ -1,7 +1,7 @@
-# Kubernetes Context Guard — JetBrains Marketplace Listing
+# KubeContext Safety — JetBrains Marketplace Listing
 
 ## Plugin Name
-Kubernetes Context Guard
+KubeContext Safety
 
 ## Tagline
 Never accidentally deploy to production again — see your kubectl context at a glance.
@@ -13,7 +13,7 @@ Prevent accidental production deployments with real-time kubectl context display
 
 ```html
 <p>
-  <b>Stop production incidents before they start.</b> Kubernetes Context Guard displays your current
+  <b>Stop production incidents before they start.</b> KubeContext Safety displays your current
   kubectl context directly in the IDE status bar with color-coded environment indicators, so you always
   know which cluster you're targeting. A simple glance prevents costly mistakes.
 </p>
@@ -56,7 +56,7 @@ Prevent accidental production deployments with real-time kubectl context display
 
 <h2>Getting Started</h2>
 <ol>
-  <li><b>Install</b> — search "Kubernetes Context Guard" in <code>Settings → Plugins</code> and click Install</li>
+  <li><b>Install</b> — search "KubeContext Safety" in <code>Settings → Plugins</code> and click Install</li>
   <li><b>Verify</b> — look at the status bar to see your current kubectl context with color coding</li>
   <li><b>Switch safely</b> — press <code>Ctrl+Shift+K</code> to switch contexts with production confirmation protection</li>
 </ol>
@@ -70,7 +70,7 @@ Prevent accidental production deployments with real-time kubectl context display
 
 <h2>Part of the Developer Productivity Suite</h2>
 <p>
-  Kubernetes Context Guard is part of a comprehensive developer safety toolkit. Combine it with
+  KubeContext Safety is part of a comprehensive developer safety toolkit. Combine it with
   <b>Terminal Safety Rails</b> (intercept dangerous terminal commands),
   <b>Local Secrets Tripwire</b> (prevent secret leaks in code),
   <b>Architecture Breadcrumbs</b> (embed architectural decisions in code), and

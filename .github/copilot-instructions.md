@@ -1,4 +1,4 @@
-# Copilot Instructions — Kubernetes Context Guard
+# Copilot Instructions — KubeContext Safety
 
 ## Projekt
 JetBrains IDE plugin — zobrazuje kubectl kontext ve status baru a varuje před akcemi na produkčním clusteru. Součást DevOps Safety Kit.

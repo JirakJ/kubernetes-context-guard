@@ -1,5 +1,13 @@
 # Changelog
 
+## [2026.2.5] - 2026-02-13
+
+### Changed
+- Renamed plugin from "Kubernetes Context Guard" to "KubeContext Safety"
+- New plugin ID: `com.jakubjirak.kubecontextsafety`
+- Resolves JetBrains Marketplace name and ID collision
+
+
 ## [2026.2.4] - 2026-02-13
 
 ### Changed
@@ -26,7 +34,7 @@ All notable changes to this project will be documented in this file.
 - 17 built-in context classification rules (glob patterns for prod, staging, dev, minikube, kind, k3d, etc.)
 - Kubeconfig file watcher with 2-second polling interval
 - Balloon notifications on production context switches
-- Configurable settings page (Settings → Tools → Kubernetes Context Guard)
+- Configurable settings page (Settings → Tools → KubeContext Safety)
 - Custom kubeconfig path override (supports `KUBECONFIG` env var)
 - Custom context classification rules (pattern, environment, confirm actions, reminder interval)
 - Team-shared rules via `.k8s-guard.yaml` project file

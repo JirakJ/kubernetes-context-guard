@@ -23,12 +23,12 @@ class K8sGuardConfigurable : Configurable {
     private var rulesTableModel: DefaultTableModel? = null
     private var mainPanel: JPanel? = null
 
-    override fun getDisplayName(): String = "Kubernetes Context Guard"
+    override fun getDisplayName(): String = "KubeContext Safety"
 
     override fun createComponent(): JComponent {
         val settings = K8sGuardSettings.getInstance()
 
-        enabledCheckbox = JBCheckBox("Enable Kubernetes Context Guard", settings.enabled)
+        enabledCheckbox = JBCheckBox("Enable KubeContext Safety", settings.enabled)
         notifyCheckbox = JBCheckBox("Show notification on production context switch", settings.showNotificationOnProductionSwitch)
         kubeconfigField = JBTextField(settings.kubeconfigPathOverride).apply {
             emptyText.text = "~/.kube/config (default)"

@@ -18,7 +18,7 @@ class ContextStatusBarWidgetFactory : StatusBarWidgetFactory {
 
     override fun getId(): String = WIDGET_ID
 
-    override fun getDisplayName(): String = "Kubernetes Context Guard"
+    override fun getDisplayName(): String = "KubeContext Safety"
 
     override fun isAvailable(project: Project): Boolean = true
 
@@ -61,7 +61,7 @@ class ContextStatusBarWidget(private val project: Project) : StatusBarWidget, St
     override fun getTooltipText(): String {
         val info = currentInfo ?: return "Kubernetes: No context detected"
         return buildString {
-            appendLine("Kubernetes Context Guard")
+            appendLine("KubeContext Safety")
             appendLine("Context: ${info.context.name}")
             appendLine("Cluster: ${info.context.cluster}")
             appendLine("Namespace: ${info.context.namespace}")

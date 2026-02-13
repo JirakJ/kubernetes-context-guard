@@ -1,4 +1,4 @@
-# Kubernetes Context Guard
+# KubeContext Safety
 
 [![Build](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml/badge.svg)](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml)
 [![Version](https://img.shields.io/badge/version-2026.2.2-blue.svg)](https://github.com/JirakJ/kubernetes-context-guard/releases)
@@ -27,7 +27,7 @@
 
 ### From JetBrains Marketplace
 1. Open **Settings → Plugins → Marketplace**
-2. Search for **"Kubernetes Context Guard"**
+2. Search for **"KubeContext Safety"**
 3. Click **Install**
 
 ### From ZIP
@@ -48,7 +48,7 @@
 
 ## ⚙️ Configuration
 
-**Settings → Tools → Kubernetes Context Guard**
+**Settings → Tools → KubeContext Safety**
 
 | Setting | Default | Description |
 |---------|---------|-------------|
@@ -102,7 +102,7 @@ cd kubernetes-context-guard
 
 ## 🤝 Part of DevOps Safety Kit
 
-Kubernetes Context Guard pairs with [Terminal Safety Rails](https://github.com/JirakJ/terminal-safety-rails) and [Local Secrets Tripwire](https://github.com/JirakJ/local-secrets-tripwire) for comprehensive protection against accidental production changes and secret leaks.
+KubeContext Safety pairs with [Terminal Safety Rails](https://github.com/JirakJ/terminal-safety-rails) and [Local Secrets Tripwire](https://github.com/JirakJ/local-secrets-tripwire) for comprehensive protection against accidental production changes and secret leaks.
 
 ## 📝 License
 
