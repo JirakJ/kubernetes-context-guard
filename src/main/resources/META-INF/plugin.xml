@@ -50,7 +50,7 @@
                 toolWindowId="K8s Context Guard"/>
 
         <!-- Startup activity -->
-        <postStartupActivity
+        <projectActivity
                 implementation="com.jakubjirak.k8sguard.K8sGuardStartupActivity"/>
     </extensions>
 

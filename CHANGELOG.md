@@ -1,5 +1,12 @@
 # Changelog
 
+## [2026.2.8] - 2026-02-14
+
+### Fixed
+- Removed deprecated API usage (postStartupActivity → projectActivity, StatusBarWidget.getPresentation)
+- No experimental API usage
+
+
 ## [2026.2.7] - 2026-02-13
 
 ### Added
