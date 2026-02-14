@@ -50,8 +50,6 @@ class ContextStatusBarWidget(private val project: Project) : StatusBarWidget, St
         currentInfo = ProductionGuardService.getInstance().getCurrentContextInfo()
     }
 
-    override fun getPresentation(): StatusBarWidget.WidgetPresentation = this
-
     @NlsContexts.Label
     override fun getText(): String {
         val info = currentInfo ?: return "⎈ No context"
