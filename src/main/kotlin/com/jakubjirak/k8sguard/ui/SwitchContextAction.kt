@@ -7,6 +7,7 @@ import com.jakubjirak.k8sguard.settings.K8sGuardSettings
 import com.jakubjirak.k8sguard.watcher.KubeConfigWatcher
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
@@ -17,6 +18,8 @@ import java.awt.Color
 import javax.swing.Icon
 
 class SwitchContextAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
