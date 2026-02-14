@@ -1,40 +1,23 @@
 package com.jakubjirak.k8sguard.settings
 
-import com.jakubjirak.k8sguard.model.Environment
-import com.intellij.openapi.options.Configurable
-import com.intellij.openapi.ui.ComboBoxTableRenderer
-import com.intellij.ui.IdeBorderFactory
+import com.intellij.openapi.options.BoundConfigurable
+import com.intellij.openapi.ui.DialogPanel
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.components.JBCheckBox
-import com.intellij.ui.components.JBLabel
-import com.intellij.ui.components.JBTextField
+import com.intellij.ui.dsl.builder.Align
+import com.intellij.ui.dsl.builder.AlignX
+import com.intellij.ui.dsl.builder.bindSelected
+import com.intellij.ui.dsl.builder.bindText
+import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.table.JBTable
-import com.intellij.util.ui.FormBuilder
-import java.awt.BorderLayout
-import javax.swing.JComponent
-import javax.swing.JPanel
 import javax.swing.table.DefaultTableModel
 
-class K8sGuardConfigurable : Configurable {
+class K8sGuardConfigurable : BoundConfigurable("KubeContext Safety") {
 
-    private var enabledCheckbox: JBCheckBox? = null
-    private var notifyCheckbox: JBCheckBox? = null
-    private var kubeconfigField: JBTextField? = null
     private var rulesTableModel: DefaultTableModel? = null
-    private var mainPanel: JPanel? = null
 
-    override fun getDisplayName(): String = "KubeContext Safety"
-
-    override fun createComponent(): JComponent {
+    override fun createPanel(): DialogPanel {
         val settings = K8sGuardSettings.getInstance()
 
-        enabledCheckbox = JBCheckBox("Enable KubeContext Safety", settings.enabled)
-        notifyCheckbox = JBCheckBox("Show notification on production context switch", settings.showNotificationOnProductionSwitch)
-        kubeconfigField = JBTextField(settings.kubeconfigPathOverride).apply {
-            emptyText.text = "~/.kube/config (default)"
-        }
-
-        // Rules table
         val columnNames = arrayOf("Pattern", "Environment", "Confirm Actions")
         rulesTableModel = object : DefaultTableModel(columnNames, 0) {
             override fun getColumnClass(columnIndex: Int): Class<*> = when (columnIndex) {
@@ -49,12 +32,9 @@ class K8sGuardConfigurable : Configurable {
             rulesTableModel?.addRow(arrayOf<Any>(rule.pattern, rule.environment, rule.confirmActions))
         }
 
-        val rulesTable = JBTable(rulesTableModel).apply {
-            columnModel.getColumn(1).cellEditor = com.intellij.ui.components.fields.ExtendableTextField()
-                .let { null } // Will use default string editor; environment validated on save
-        }
+        val rulesTable = JBTable(rulesTableModel)
 
-        val toolbarDecorator = ToolbarDecorator.createDecorator(rulesTable)
+        val rulesPanel = ToolbarDecorator.createDecorator(rulesTable)
             .setAddAction {
                 rulesTableModel?.addRow(arrayOf<Any>("*pattern*", "PRODUCTION", true))
             }
@@ -64,44 +44,51 @@ class K8sGuardConfigurable : Configurable {
                     rulesTableModel?.removeRow(selectedRow)
                 }
             }
+            .createPanel()
 
-        val rulesPanel = toolbarDecorator.createPanel().apply {
-            border = IdeBorderFactory.createTitledBorder("Custom Context Rules (evaluated before defaults)")
+        return panel {
+            group("General") {
+                row {
+                    checkBox("Enable KubeContext Safety")
+                        .bindSelected(settings::enabled)
+                }
+                row {
+                    checkBox("Show notification on production context switch")
+                        .bindSelected(settings::showNotificationOnProductionSwitch)
+                        .comment("Show a warning notification when switching to a production context")
+                }
+            }
+            group("Kubeconfig") {
+                row("Path override:") {
+                    textFieldWithBrowseButton("Select Kubeconfig File")
+                        .bindText(settings::kubeconfigPathOverride)
+                        .comment("Override kubeconfig file path. Leave empty to use default (~/.kube/config)")
+                        .align(AlignX.FILL)
+                }
+            }
+            group("Custom Context Rules (evaluated before defaults)") {
+                row {
+                    cell(rulesPanel)
+                        .align(Align.FILL)
+                }.resizableRow()
+            }
         }
-
-        mainPanel = FormBuilder.createFormBuilder()
-            .addComponent(enabledCheckbox!!)
-            .addComponent(notifyCheckbox!!)
-            .addLabeledComponent(JBLabel("Kubeconfig path override:"), kubeconfigField!!)
-            .addComponentFillVertically(rulesPanel, 10)
-            .panel
-
-        return mainPanel!!
     }
 
     override fun isModified(): Boolean {
+        if (super.isModified()) return true
         val settings = K8sGuardSettings.getInstance()
-        if (enabledCheckbox?.isSelected != settings.enabled) return true
-        if (notifyCheckbox?.isSelected != settings.showNotificationOnProductionSwitch) return true
-        if (kubeconfigField?.text != settings.kubeconfigPathOverride) return true
-        if (getTableRules().size != settings.customRules.size) return true
         return getTableRules() != settings.customRules
     }
 
     override fun apply() {
-        val settings = K8sGuardSettings.getInstance()
-        settings.enabled = enabledCheckbox?.isSelected ?: true
-        settings.showNotificationOnProductionSwitch = notifyCheckbox?.isSelected ?: true
-        settings.kubeconfigPathOverride = kubeconfigField?.text ?: ""
-        settings.customRules = getTableRules().toMutableList()
+        super.apply()
+        K8sGuardSettings.getInstance().customRules = getTableRules().toMutableList()
     }
 
     override fun reset() {
+        super.reset()
         val settings = K8sGuardSettings.getInstance()
-        enabledCheckbox?.isSelected = settings.enabled
-        notifyCheckbox?.isSelected = settings.showNotificationOnProductionSwitch
-        kubeconfigField?.text = settings.kubeconfigPathOverride
-
         rulesTableModel?.rowCount = 0
         settings.customRules.forEach { rule ->
             rulesTableModel?.addRow(arrayOf<Any>(rule.pattern, rule.environment, rule.confirmActions))
@@ -120,10 +107,7 @@ class K8sGuardConfigurable : Configurable {
     }
 
     override fun disposeUIResources() {
-        enabledCheckbox = null
-        notifyCheckbox = null
-        kubeconfigField = null
+        super.disposeUIResources()
         rulesTableModel = null
-        mainPanel = null
     }
 }
