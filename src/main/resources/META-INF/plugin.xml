@@ -1,5 +1,6 @@
 <idea-plugin>
     <id>com.jakubjirak.kubecontextsafety</id>
+    <product-descriptor code="PKUBECONTEXTGRD" release-date="20260215" release-version="20262" optional="true"/>
     <name>KubeContext Safety</name>
     <vendor email="jakub@jirak.dev" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
 
