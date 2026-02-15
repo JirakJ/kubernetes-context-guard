@@ -5,23 +5,35 @@
     <vendor email="jakub@jirak.dev" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
 
     <description><![CDATA[
-    <h2>KubeContext Safety</h2>
-    <p>Prominently displays your current kubectl context in the IDE status bar with color-coded environment
-    indicators. Prevents accidental actions on production clusters with confirmation dialogs and visual warnings.</p>
+<h2>KubeContext Safety</h2>
+<p>
+  One wrong <code>kubectl</code> command in the wrong context can take down production. KubeContext Safety
+  adds a color-coded context indicator to your IDE status bar and blocks destructive commands in
+  production environments — giving your team a critical safety net.
+</p>
 
-    <h3>Features</h3>
-    <ul>
-        <li><b>Status bar widget</b> — always see which cluster you're connected to</li>
-        <li><b>Color coding</b> — 🔴 production, 🟡 staging, 🟢 development</li>
-        <li><b>Production guard</b> — confirmation dialog when switching to production context</li>
-        <li><b>Quick context switch</b> — change context without leaving the IDE</li>
-        <li><b>Team rules</b> — share context classification via <code>.k8s-guard.yaml</code></li>
-    </ul>
+<h2>Key Features</h2>
+<ul>
+  <li><b>Status Bar Widget</b> — Always-visible current kubectl context with environment label</li>
+  <li><b>Color-Coded Environments</b> — Red for production, yellow for staging, green for development</li>
+  <li><b>Production Guard</b> — Confirmation dialog before any command in production contexts</li>
+  <li><b>Quick Context Switching</b> — Switch kubectl contexts from the status bar without terminal commands</li>
+  <li><b>Team Rules</b> — Share context classifications via <code>.k8s-guard.yaml</code> in your repo</li>
+  <li><b>Namespace Awareness</b> — Context safety extends to namespace-level operations</li>
+</ul>
 
-    <h3>Part of DevOps Safety Kit</h3>
-    <p>Pairs with <b>Terminal Safety Rails</b> for comprehensive protection against accidental
-    production changes.</p>
-    ]]></description>
+<h2>Why KubeContext Safety?</h2>
+<p>
+  Production incidents caused by wrong-context kubectl commands are more common than anyone admits. This
+  plugin adds a simple but effective guardrail that has prevented countless accidental deployments and deletions.
+</p>
+
+<h2>Free vs Pro</h2>
+<ul>
+  <li><b>Free:</b> Status bar widget, color-coded contexts, production guard, quick switching, team config</li>
+  <li><b>Pro:</b> Audit logging, command allowlists/blocklists per context, Slack/Teams notifications for production access, and multi-cluster dashboard</li>
+</ul>
+]]></description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends optional="true" config-file="git4idea-extensions.xml">Git4Idea</depends>
