@@ -1,7 +1,9 @@
 package com.jakubjirak.k8sguard.settings
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.BoundConfigurable
 import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.dsl.builder.Align
 import com.intellij.ui.dsl.builder.AlignX
@@ -60,7 +62,10 @@ class K8sGuardConfigurable : BoundConfigurable("KubeContext Safety") {
             }
             group("Kubeconfig") {
                 row("Path override:") {
-                    textFieldWithBrowseButton("Select Kubeconfig File")
+                    cell(TextFieldWithBrowseButton().apply {
+                        addBrowseFolderListener("Select Kubeconfig File", null, null,
+                            FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor())
+                    })
                         .bindText(settings::kubeconfigPathOverride)
                         .comment("Override kubeconfig file path. Leave empty to use default (~/.kube/config)")
                         .align(AlignX.FILL)
