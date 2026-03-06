@@ -8,7 +8,6 @@
 
 ## ✨ Features
 
-### Free Tier
 - **Status bar widget** — always see which Kubernetes cluster you're connected to
 - **Color-coded environments** — 🔴 production, 🟡 staging, 🟢 development at a glance
 - **Production guard** — confirmation dialog when switching to production context
@@ -16,8 +15,6 @@
 - **17 built-in rules** — auto-classifies contexts by name patterns (prod, staging, dev, minikube, k3d, etc.)
 - **Kubeconfig monitoring** — file watcher with 2-second polling on `~/.kube/config`
 - **Notifications** — balloon alerts on production context switches
-
-### Pro Tier ($1.90/month)
 - **Custom context rules** — define your own pattern → environment mappings
 - **Team-shared rules** — share context classification via `.k8s-guard.yaml` in your project
 - **Audit logging** — track context switch history
