@@ -2,6 +2,8 @@
     <id>com.jakubjirak.kubecontextsafety</id>
     <name>KubeContext Safety</name>
     <vendor email="support@jakubjirak.com" url="https://github.com/jakubjirak">Jakub Jirák</vendor>
+    <product-descriptor code="PKUBERNETESCONT" release-date="20260418" release-version="20263" optional="true"/>
+
 
     <description><![CDATA[<h2>KubeContext Safety — Color-Coded Kubernetes Context Guard for Your IDE</h2>
 
