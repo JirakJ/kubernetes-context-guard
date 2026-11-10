@@ -34,53 +34,50 @@
 
 ### ✨ Key Features
 
-#### 🚦 Color-Coded Status Bar Widget (Free)
+#### 🚦 Color-Coded Status Bar Widget
 - **🔴 Production** — `*prod*`, `*prd*`, `*live*` contexts highlighted in red
 - **🟡 Staging** — `*staging*`, `*stg*`, `*uat*`, `*preprod*` contexts in yellow
 - **🟢 Development** — `*dev*`, `*local*`, `*minikube*`, `*kind*`, `*docker-desktop*`, `*test*`, `*k3d*` in green
 - **17 built-in patterns** covering the most common context naming conventions
 
-#### 🛑 Production Guard Dialog (Free)
+#### 🛑 Production Guard Dialog
 - Mandatory confirmation when switching to a production context
 - Prevents accidental `kubectl` commands against live clusters
 - Balloon notifications on every production context switch
 
-#### ⌨️ Quick Context Switch (Free)
+#### ⌨️ Quick Context Switch
 - **Ctrl+Shift+K** — switch kubectl context without leaving the IDE
 - Context details tooltip showing cluster, namespace, and user info
 
-#### 📡 Live kubeconfig Monitoring (Free)
+#### 📡 Live kubeconfig Monitoring
 - Watches `~/.kube/config` (or `KUBECONFIG` env var) with 2-second polling
 - Automatic updates when context changes externally (e.g., via terminal `kubectl config use-context`)
 
-#### 🎨 Visual IDE Border Indicator (Pro)
+#### 🎨 Visual IDE Border Indicator
 - **Red border** around the entire IDE window when connected to a production context
 - Impossible to miss — even with multiple IDE windows
 
-#### 🔧 Custom Context Rules (Pro)
+#### 🔧 Custom Context Rules
 - Define unlimited custom pattern → environment mappings
 - Override built-in classifications for your organization's naming conventions
 - Team-shared rules via `.k8s-guard.yaml` committed to your repository
 
-#### ⏰ Configurable Reminders (Pro)
+#### ⏰ Configurable Reminders
 - Periodic reminders when connected to production (default: every 30 minutes)
 - Never forget you're still on the production cluster
 
-#### 📝 Audit Logging (Pro)
+#### 📝 Audit Logging
 - Timestamped log of all context switches
 - Track who switched to production and when
 
-#### 🔀 Namespace Switching (Pro)
+#### 🔀 Namespace Switching
 - Switch namespaces within a context without leaving the IDE
 
 ---
 
-### 💰 Pricing Model
+### 💚 Free & open source
 
-| Tier    | Price                     | Highlights                                                      |
-|---------|---------------------------|-----------------------------------------------------------------|
-| **Free** | $0                       | Status bar widget, color-coded indicators (🔴🟡🟢), production guard dialog, quick context switch (Ctrl+Shift+K), 17 built-in patterns, kubeconfig monitoring, notifications |
-| **Pro** | $1.90/month or $19/year   | Custom rules, team-shared rules (`.k8s-guard.yaml`), visual IDE border, audit logging, configurable reminders, namespace switching |
+All features are free for everyone — no license needed. Source code under Apache-2.0: https://github.com/JirakJ/kubernetes-context-guard
 
 ---
 
@@ -125,8 +122,8 @@
 | 2 | **Production Guard Dialog** — Confirmation prompt when switching to a production context |
 | 3 | **Quick Context Switcher** — Ctrl+Shift+K popup listing available contexts with environment colors |
 | 4 | **Context Details Tooltip** — Hover tooltip showing cluster, namespace, and user information |
-| 5 | **Visual IDE Border (Pro)** — Red border around the entire IDE window on production context |
-| 6 | **Custom Rules Configuration (Pro)** — Settings panel for custom pattern → environment mappings |
+| 5 | **Visual IDE Border** — Red border around the entire IDE window on production context |
+| 6 | **Custom Rules Configuration** — Settings panel for custom pattern → environment mappings |
 | 7 | **Balloon Notification** — Warning notification on production context switch |
 | 8 | **Team Shared Config** — `.k8s-guard.yaml` file with team-wide context classification rules |
 
@@ -184,10 +181,8 @@
 - [ ] Screenshots captured (minimum 5, 1280×800px recommended)
 - [ ] Plugin signed with JetBrains Marketplace certificate
 - [ ] Changelog written for initial release
-- [ ] Pricing tiers configured in JetBrains Marketplace (Free + Pro)
 - [ ] Vendor verified on JetBrains Marketplace
 - [ ] Compatibility range tested (2024.3+)
-- [ ] License agreement uploaded (MIT)
 - [ ] kubectl requirement documented
 - [ ] Support URL / email configured
 - [ ] README and documentation published
