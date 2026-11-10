@@ -19,3 +19,6 @@ Thumbs.db
 
 # Plugin build
 /sandbox/
+.env
+.intellijPlatform/
+.kotlin/

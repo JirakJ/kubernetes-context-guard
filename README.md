@@ -1,8 +1,8 @@
 # KubeContext Safety
 
+[![Version](https://img.shields.io/badge/version-2026.8.0-blue)](https://plugins.jetbrains.com/plugin/30204)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Build](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml/badge.svg)](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml)
-[![Version](https://img.shields.io/badge/version-2026.2.2-blue.svg)](https://github.com/JirakJ/kubernetes-context-guard/releases)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > Prominently displays your current kubectl context in the IDE status bar with color-coded environment indicators and production safeguards.
 
@@ -101,11 +101,19 @@ cd kubernetes-context-guard
 
 KubeContext Safety pairs with [Terminal Safety Rails](https://github.com/JirakJ/terminal-safety-rails) and [Local Secrets Tripwire](https://github.com/JirakJ/local-secrets-tripwire) for comprehensive protection against accidental production changes and secret leaks.
 
-## 📝 License
-
-MIT License — see [LICENSE](LICENSE) for details.
-
 ## 👤 Author
 
 **Jakub Jirák**
 - GitHub: [@JirakJ](https://github.com/JirakJ)
+
+## Free & open source
+
+As of version 2026.8.0 this plugin is completely free — every feature is unlocked and no license is needed. The source code is available at https://github.com/JirakJ/kubernetes-context-guard under the Apache License 2.0.
+
+## Contributing
+
+Issues and pull requests are welcome — please open them on GitHub.
+
+## License
+
+Copyright 2026 Jakub Jirák. Licensed under the [Apache License, Version 2.0](LICENSE).

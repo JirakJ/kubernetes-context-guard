@@ -30,8 +30,7 @@ Prevent accidental production deployments with real-time kubectl context display
   <li><b>Balloon notifications</b> — alerts on production context switches</li>
 </ul>
 
-<h2>Free Tier</h2>
-<p>Everything you need to stay safe — no credit card required:</p>
+<h2>Core Features</h2>
 <ul>
   <li>Status bar widget with current context display</li>
   <li>Color-coded environment indicators (production, staging, development)</li>
@@ -43,8 +42,7 @@ Prevent accidental production deployments with real-time kubectl context display
   <li>Balloon notifications on production switches</li>
 </ul>
 
-<h2>Pro Tier ($1.90/month)</h2>
-<p>Designed for teams who manage multiple clusters and need full control:</p>
+<h2>Advanced Features</h2>
 <ul>
   <li><b>Custom context rules</b> — unlimited user-defined pattern → environment mappings</li>
   <li><b>Team-shared rules</b> — define classification rules in <code>.k8s-guard.yaml</code> and commit to your repo</li>
@@ -86,14 +84,11 @@ kubernetes, kubectl, devops, production-safety, context-switching
 DevOps
 
 ## Pricing
-| Tier | Price | Features |
-|------|-------|----------|
-| Free | $0 | Status bar widget, color-coded indicators, production guard, quick switch, 17 built-in patterns, kubeconfig monitoring, notifications |
-| Pro | $1.90/month or $19/year | Custom rules, team-shared rules, visual border indicator, audit logging, configurable reminders, namespace switching |
+All features are free for everyone — no license needed. Source code under Apache-2.0: https://github.com/JirakJ/kubernetes-context-guard
 
 ## Screenshots Needed
 1. **Status bar widget** — showing the kubectl context with color-coded environment indicator (green for dev, red for production)
 2. **Production confirmation dialog** — the modal dialog that appears when switching to a production context
 3. **Quick context switch popup** — the dropdown list of available contexts triggered by Ctrl+Shift+K
-4. **Visual border indicator (Pro)** — the red border around the IDE when connected to a production cluster
+4. **Visual border indicator** — the red border around the IDE when connected to a production cluster
 5. **Settings panel** — the plugin configuration page showing custom rules and pattern settings
