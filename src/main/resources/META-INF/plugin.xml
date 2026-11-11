@@ -86,6 +86,7 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
     </extensions>
 
     <change-notes><![CDATA[
+      <h3>2026.9.0</h3><ul><li>Production confirmation is shown before switching to a production context.</li><li>Switching no longer blocks the UI thread; kubectl errors are reported.</li><li>Team rules from .k8s-guard.yaml are loaded and applied.</li><li>Kubeconfig path override and production-switch notification settings take effect; all KUBECONFIG files are merged.</li><li>Removed unused git helpers and the empty Git4Idea integration.</li></ul>
       <h3>2026.8.0</h3><ul><li>The plugin is now completely free — all features unlocked, no license needed.</li><li>Source code is now open source under Apache-2.0: https://github.com/JirakJ/kubernetes-context-guard</li></ul>
 
         <h3>What's New</h3>
