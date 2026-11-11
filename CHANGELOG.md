@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [2026.9.0] - 2026-11-11
+
 ### Fixed
 - **Production confirmation was never shown**: switching to a production context (or one matched by a rule with *confirm actions*) now asks for confirmation before running `kubectl config use-context`.
 - Switching no longer blocks the UI thread; kubectl errors are reported as a notification.
