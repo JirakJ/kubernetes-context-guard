@@ -1,5 +1,19 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+- **Production confirmation was never shown**: switching to a production context (or one matched by a rule with *confirm actions*) now asks for confirmation before running `kubectl config use-context`.
+- Switching no longer blocks the UI thread; kubectl errors are reported as a notification.
+- **Team rules from `.k8s-guard.yaml` were never loaded**; they now apply to the status bar and the switch popup.
+- The *Kubeconfig path override* and *Show notification on production switch* settings had no effect; both are applied now.
+- All files listed in `KUBECONFIG` are merged like kubectl does (previously only the first one was read).
+- The status bar shows the environment colour marker; widgets no longer leak listeners when a project closes.
+
+### Removed
+- Unused, never-wired git branch/deployment helpers and the empty optional Git4Idea integration.
+- Description items for features that do not exist (audit logging, production-session reminders).
+
 ## [2026.8.0] - 2026-11-10
 
 ### Changed
