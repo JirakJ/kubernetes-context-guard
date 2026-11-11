@@ -15,15 +15,14 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
   <li>Status bar widget showing current kubectl context name at all times</li>
   <li>Color-coded environment indicators: red (production), yellow (staging), green (development)</li>
   <li>Tooltip with full context details: cluster, namespace, user</li>
-  <li>Automatic kubeconfig monitoring with 2-second polling</li>
+  <li>Automatic kubeconfig monitoring with 2-second polling (multiple <code>KUBECONFIG</code> files are merged like kubectl does)</li>
 </ul>
 
 <h3>Safety Features</h3>
 <ul>
   <li>Confirmation dialog before switching to production contexts</li>
-  <li>Balloon notifications on production context switches</li>
+  <li>Balloon notification when the active context becomes a production one (also when changed outside the IDE)</li>
   <li>17 built-in rules auto-classify contexts (prod, staging, dev, minikube, kind, k3d, etc.)</li>
-  <li>Configurable reminder intervals for long production sessions</li>
 </ul>
 
 <h3>Productivity</h3>
@@ -33,18 +32,17 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
   <li>No terminal needed to change kubectl context</li>
 </ul>
 
+<h3>Rules</h3>
 <ul>
   <li>Custom context classification rules with pattern matching</li>
   <li>Team-shared rules via <code>.k8s-guard.yaml</code> in the project root</li>
-  <li>Audit logging of context switch history</li>
 </ul>
 
 <h3>Requirements</h3>
 <ul>
-  <li>IntelliJ IDEA 2024.3+ (or any JetBrains IDE based on IntelliJ Platform)</li>
-  <li>kubectl installed and available on PATH</li>
-  <li>Valid kubeconfig file (~/.kube/config or KUBECONFIG env var)</li>
-  <li>Java 17+</li>
+  <li>IntelliJ IDEA 2023.2+ (or any JetBrains IDE based on IntelliJ Platform)</li>
+  <li>kubectl on PATH (only needed for switching contexts from the IDE)</li>
+  <li>Valid kubeconfig file (~/.kube/config, KUBECONFIG or a path set in Settings)</li>
 </ul>
 
 <h3>Support</h3>
@@ -55,7 +53,6 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
 </ul>]]></description>
 
     <depends>com.intellij.modules.platform</depends>
-    <depends optional="true" config-file="git4idea-extensions.xml">Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Status bar widget -->
@@ -78,8 +75,7 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
         <!-- Notification group -->
         <notificationGroup
                 id="K8s Context Guard"
-                displayType="BALLOON"
-                toolWindowId="K8s Context Guard"/>
+                displayType="BALLOON"/>
 
         <!-- Startup activity -->
         <projectActivity
@@ -88,9 +84,6 @@ One wrong <code>kubectl</code> command in the wrong context can take down produc
         <notificationGroup id="KubeContext Safety Feedback" displayType="BALLOON"/>
         <projectActivity implementation="com.jakubjirak.k8sguard.feedback.FeedbackNotifier"/>
     </extensions>
-
-    <applicationListeners>
-    </applicationListeners>
 
     <change-notes><![CDATA[
       <h3>2026.8.0</h3><ul><li>The plugin is now completely free — all features unlocked, no license needed.</li><li>Source code is now open source under Apache-2.0: https://github.com/JirakJ/kubernetes-context-guard</li></ul>

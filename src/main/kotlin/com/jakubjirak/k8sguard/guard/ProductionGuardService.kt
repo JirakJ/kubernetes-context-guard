@@ -19,8 +19,9 @@ import com.intellij.openapi.diagnostic.Logger
 @Service(Service.Level.APP)
 class ProductionGuardService : Disposable, KubeConfigWatcher.ContextChangeListener {
 
+    @Volatile
     private var currentContextInfo: ContextInfo? = null
-    private val contextInfoListeners = mutableListOf<(ContextInfo?) -> Unit>()
+    private val contextInfoListeners = java.util.concurrent.CopyOnWriteArrayList<(ContextInfo?) -> Unit>()
 
     fun start() {
         val watcher = KubeConfigWatcher.getInstance()
@@ -34,6 +35,10 @@ class ProductionGuardService : Disposable, KubeConfigWatcher.ContextChangeListen
 
     fun addContextInfoListener(listener: (ContextInfo?) -> Unit) {
         contextInfoListeners.add(listener)
+    }
+
+    fun removeContextInfoListener(listener: (ContextInfo?) -> Unit) {
+        contextInfoListeners.remove(listener)
     }
 
     override fun onContextChanged(config: KubeConfig) {
@@ -55,10 +60,7 @@ class ProductionGuardService : Disposable, KubeConfigWatcher.ContextChangeListen
         }
 
         // Show notification on production context switch
-        if (info.environment == Environment.PRODUCTION &&
-            previousInfo?.environment != Environment.PRODUCTION &&
-            settings.enabled
-        ) {
+        if (shouldWarn(previousInfo, info, settings.enabled, settings.showNotificationOnProductionSwitch)) {
             showProductionWarning(info)
         }
     }
@@ -93,6 +95,12 @@ class ProductionGuardService : Disposable, KubeConfigWatcher.ContextChangeListen
 
     companion object {
         private val LOG = Logger.getInstance(ProductionGuardService::class.java)
+
+        /** Warn only when entering production (not on every refresh while already there) and when enabled. */
+        fun shouldWarn(previous: ContextInfo?, current: ContextInfo, enabled: Boolean, notifyOnProduction: Boolean): Boolean =
+            enabled && notifyOnProduction &&
+                current.environment == Environment.PRODUCTION &&
+                previous?.environment != Environment.PRODUCTION
 
         fun getInstance(): ProductionGuardService =
             ApplicationManager.getApplication().getService(ProductionGuardService::class.java)

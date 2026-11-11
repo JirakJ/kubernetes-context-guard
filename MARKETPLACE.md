@@ -42,14 +42,10 @@ Prevent accidental production deployments with real-time kubectl context display
   <li>Balloon notifications on production switches</li>
 </ul>
 
-<h2>Advanced Features</h2>
+<h2>Rules</h2>
 <ul>
-  <li><b>Custom context rules</b> — unlimited user-defined pattern → environment mappings</li>
+  <li><b>Custom context rules</b> — user-defined pattern → environment mappings</li>
   <li><b>Team-shared rules</b> — define classification rules in <code>.k8s-guard.yaml</code> and commit to your repo</li>
-  <li><b>Visual border indicator</b> — red border around the entire IDE when connected to production</li>
-  <li><b>Audit logging</b> — track every context switch with timestamps</li>
-  <li><b>Configurable reminders</b> — periodic reminders when you've been on production for too long (default: every 30 minutes)</li>
-  <li><b>Namespace switching</b> — manage namespaces within contexts directly from the IDE</li>
 </ul>
 
 <h2>Getting Started</h2>
@@ -90,5 +86,4 @@ All features are free for everyone — no license needed. Source code under Apac
 1. **Status bar widget** — showing the kubectl context with color-coded environment indicator (green for dev, red for production)
 2. **Production confirmation dialog** — the modal dialog that appears when switching to a production context
 3. **Quick context switch popup** — the dropdown list of available contexts triggered by Ctrl+Shift+K
-4. **Visual border indicator** — the red border around the IDE when connected to a production cluster
-5. **Settings panel** — the plugin configuration page showing custom rules and pattern settings
+4. **Settings panel** — the plugin configuration page showing custom rules and pattern settings

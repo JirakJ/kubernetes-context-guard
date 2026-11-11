@@ -1,5 +1,0 @@
-<idea-plugin>
-    <extensions defaultExtensionNs="com.intellij">
-        <!-- Git-dependent extensions registered only when Git4Idea is available -->
-    </extensions>
-</idea-plugin>

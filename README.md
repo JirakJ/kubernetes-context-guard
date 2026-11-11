@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-2026.8.0-blue)](https://plugins.jetbrains.com/plugin/30204)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
-[![Build](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml/badge.svg)](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/build.yml)
+[![Build](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/verify.yml/badge.svg)](https://github.com/JirakJ/kubernetes-context-guard/actions/workflows/verify.yml)
 
 > Prominently displays your current kubectl context in the IDE status bar with color-coded environment indicators and production safeguards.
 
@@ -13,12 +13,10 @@
 - **Production guard** — confirmation dialog when switching to production context
 - **Quick context switch** — change kubectl context without leaving the IDE
 - **17 built-in rules** — auto-classifies contexts by name patterns (prod, staging, dev, minikube, k3d, etc.)
-- **Kubeconfig monitoring** — file watcher with 2-second polling on `~/.kube/config`
-- **Notifications** — balloon alerts on production context switches
+- **Kubeconfig monitoring** — 2-second polling of `~/.kube/config`, every file in `KUBECONFIG` (merged like kubectl) or the path set in Settings
+- **Notifications** — balloon alert when the active context becomes a production one
 - **Custom context rules** — define your own pattern → environment mappings
 - **Team-shared rules** — share context classification via `.k8s-guard.yaml` in your project
-- **Audit logging** — track context switch history
-- **Reminder intervals** — configurable reminders for long-running production sessions
 
 ## 📦 Installation
 
@@ -52,7 +50,7 @@
 | Enable plugin | `true` | Enable or disable the plugin entirely |
 | Show notification on production switch | `true` | Show a balloon notification when switching to a production context |
 | Kubeconfig path override | *(empty)* | Custom path to kubeconfig file (defaults to `~/.kube/config` or `KUBECONFIG` env var) |
-| Custom rules | *(empty)* | Table of custom context classification rules (pattern, environment, confirm actions, reminder interval) |
+| Custom rules | *(empty)* | Table of custom context classification rules (pattern, environment, confirm actions) |
 
 ## 🎯 Usage
 
@@ -63,10 +61,20 @@ The widget displays the current kubectl context name with a colored indicator ma
 Press `Ctrl+Shift+K` or go to **Tools → Switch Kubernetes Context** to open a popup list of all available contexts. Select a context to switch to it — the plugin executes `kubectl config use-context` under the hood.
 
 ### Production Guard
-When you switch to a context classified as production, a confirmation dialog appears requiring explicit approval before the switch completes.
+When you switch (from the IDE) to a context classified as production — or matched by a rule with *confirm actions* — a confirmation dialog appears and the switch only happens after explicit approval. Switching runs `kubectl config use-context` in the background; errors are shown as a notification.
 
 ### Team-Shared Rules
-Place a `.k8s-guard.yaml` file in your project root to define shared context classification rules for your team. Custom rules take priority over built-in defaults.
+Place a `.k8s-guard.yaml` file in your project root to define shared context classification rules for your team:
+
+```yaml
+rules:
+  - pattern: "*-eu-live*"
+    environment: production
+  - pattern: "acme-qa*"
+    environment: staging
+```
+
+Evaluation order: custom rules from Settings, then team rules, then the built-in defaults (first match wins).
 
 ### Built-in Context Patterns
 

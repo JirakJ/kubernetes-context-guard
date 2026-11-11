@@ -53,25 +53,11 @@
 - Watches `~/.kube/config` (or `KUBECONFIG` env var) with 2-second polling
 - Automatic updates when context changes externally (e.g., via terminal `kubectl config use-context`)
 
-#### 🎨 Visual IDE Border Indicator
-- **Red border** around the entire IDE window when connected to a production context
-- Impossible to miss — even with multiple IDE windows
-
 #### 🔧 Custom Context Rules
 - Define unlimited custom pattern → environment mappings
 - Override built-in classifications for your organization's naming conventions
 - Team-shared rules via `.k8s-guard.yaml` committed to your repository
 
-#### ⏰ Configurable Reminders
-- Periodic reminders when connected to production (default: every 30 minutes)
-- Never forget you're still on the production cluster
-
-#### 📝 Audit Logging
-- Timestamped log of all context switches
-- Track who switched to production and when
-
-#### 🔀 Namespace Switching
-- Switch namespaces within a context without leaving the IDE
 
 ---
 
@@ -86,7 +72,7 @@ All features are free for everyone — no license needed. Source code under Apac
 - **DevOps engineers** managing multiple Kubernetes clusters
 - **Platform teams** enforcing production safety across the organization
 - **Developers** who access staging and production clusters from their IDE
-- **SREs** who need audit trails for cluster access
+- **SREs** who want a guard rail before touching production clusters
 - Part of the **DevOps Safety Kit** alongside Terminal Safety Rails & Local Secrets Tripwire
 
 ---
@@ -122,7 +108,6 @@ All features are free for everyone — no license needed. Source code under Apac
 | 2 | **Production Guard Dialog** — Confirmation prompt when switching to a production context |
 | 3 | **Quick Context Switcher** — Ctrl+Shift+K popup listing available contexts with environment colors |
 | 4 | **Context Details Tooltip** — Hover tooltip showing cluster, namespace, and user information |
-| 5 | **Visual IDE Border** — Red border around the entire IDE window on production context |
 | 6 | **Custom Rules Configuration** — Settings panel for custom pattern → environment mappings |
 | 7 | **Balloon Notification** — Warning notification on production context switch |
 | 8 | **Team Shared Config** — `.k8s-guard.yaml` file with team-wide context classification rules |
@@ -140,7 +125,7 @@ All features are free for everyone — no license needed. Source code under Apac
 
 ## 🔍 Keywords (SEO)
 
-`kubernetes`, `kubectl`, `kubeconfig`, `context switching`, `production safety`, `kubernetes context`, `cluster management`, `devops safety`, `kubectl context`, `k8s`, `production guard`, `namespace switching`, `kubernetes IDE`, `cluster indicator`, `devops plugin`, `kubernetes status bar`
+`kubernetes`, `kubectl`, `kubeconfig`, `context switching`, `production safety`, `kubernetes context`, `cluster management`, `devops safety`, `kubectl context`, `k8s`, `production guard`, `kubernetes IDE`, `cluster indicator`, `devops plugin`, `kubernetes status bar`
 
 ---
 

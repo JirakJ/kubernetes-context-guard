@@ -32,16 +32,14 @@ class K8sGuardSettings : PersistentStateComponent<K8sGuardSettings> {
         XmlSerializerUtil.copyBean(state, this)
     }
 
-    fun getEffectiveRules(): List<ContextRule> {
-        val custom = customRules.map { it.toContextRule() }
-        return if (custom.isNotEmpty()) {
-            custom + ContextRuleEngine.DEFAULT_RULES
-        } else {
-            ContextRuleEngine.DEFAULT_RULES
-        }
-    }
+    /** Rules in evaluation order: custom (Settings), then team rules (`.k8s-guard.yaml`), then built-in defaults. */
+    fun getEffectiveRules(teamRules: List<ContextRule> = emptyList()): List<ContextRule> =
+        effectiveRules(customRules.map { it.toContextRule() }, teamRules)
 
     companion object {
+        fun effectiveRules(custom: List<ContextRule>, team: List<ContextRule>): List<ContextRule> =
+            custom.filter { it.pattern.isNotBlank() } + team + ContextRuleEngine.DEFAULT_RULES
+
         fun getInstance(): K8sGuardSettings =
             ApplicationManager.getApplication().getService(K8sGuardSettings::class.java)
     }
@@ -54,6 +52,7 @@ data class SerializableContextRule(
     var confirmActions: Boolean = false,
     var reminderIntervalMinutes: Long = 0,
 ) {
+    // reminderIntervalMinutes is kept only so existing settings files keep loading; reminders are not implemented.
     fun toContextRule(): ContextRule = ContextRule(
         pattern = pattern,
         environment = try {
