@@ -3,19 +3,21 @@ package com.jakubjirak.k8sguard.ui
 import com.jakubjirak.k8sguard.model.ContextInfo
 import com.jakubjirak.k8sguard.model.Environment
 import com.jakubjirak.k8sguard.rules.ContextRuleEngine
+import com.jakubjirak.k8sguard.rules.TeamRulesLoader
 import com.jakubjirak.k8sguard.settings.K8sGuardSettings
 import com.jakubjirak.k8sguard.watcher.KubeConfigWatcher
+import com.intellij.notification.NotificationGroupManager
+import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.popup.JBPopupFactory
-import com.intellij.openapi.ui.popup.ListPopup
 import com.intellij.openapi.ui.popup.PopupStep
 import com.intellij.openapi.ui.popup.util.BaseListPopupStep
-import java.awt.Color
-import javax.swing.Icon
+import java.io.IOException
 
 class SwitchContextAction : AnAction() {
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -35,8 +37,7 @@ class SwitchContextAction : AnAction() {
             return
         }
 
-        val settings = K8sGuardSettings.getInstance()
-        val rules = settings.getEffectiveRules()
+        val rules = K8sGuardSettings.getInstance().getEffectiveRules(TeamRulesLoader.loadRules(project))
         val contextInfos = config.contexts.map { ctx ->
             ContextRuleEngine.classify(ctx, rules)
         }
@@ -51,10 +52,9 @@ class SwitchContextAction : AnAction() {
             }
 
             override fun onChosen(selectedValue: ContextInfo, finalChoice: Boolean): PopupStep<*>? {
-                if (finalChoice && selectedValue.context.name != currentContext) {
-                    switchContext(selectedValue)
-                }
-                return FINAL_CHOICE
+                if (!finalChoice || selectedValue.context.name == currentContext) return FINAL_CHOICE
+                // Run after the popup has closed so the confirmation dialog is not nested in it.
+                return doFinalStep { confirmAndSwitch(project, selectedValue) }
             }
 
             override fun isSpeedSearchEnabled(): Boolean = true
@@ -65,24 +65,33 @@ class SwitchContextAction : AnAction() {
             .showCenteredInCurrentWindow(project)
     }
 
-    private fun switchContext(info: ContextInfo) {
-        try {
+    private fun confirmAndSwitch(project: Project, info: ContextInfo) {
+        if (needsConfirmation(info) && !ProductionGuardDialog.showAndGet(info)) return
+        ApplicationManager.getApplication().executeOnPooledThread { switchContext(project, info) }
+    }
+
+    /** `kubectl config use-context` off the EDT; failures are reported as a notification. */
+    private fun switchContext(project: Project, info: ContextInfo) {
+        val error = try {
             val process = ProcessBuilder("kubectl", "config", "use-context", info.context.name)
                 .redirectErrorStream(true)
                 .start()
-
-            val exitCode = process.waitFor()
-            if (exitCode == 0) {
-                LOG.info("Switched to context: ${info.context.name}")
-                // Trigger watcher refresh
-                KubeConfigWatcher.getInstance().refreshConfig()
-            } else {
-                val error = process.inputStream.bufferedReader().readText()
-                LOG.warn("Failed to switch context: $error")
-            }
-        } catch (e: Exception) {
+            val output = process.inputStream.bufferedReader().readText()
+            if (process.waitFor() == 0) null else output.ifBlank { "kubectl exited with an error" }
+        } catch (e: IOException) {
             LOG.warn("Failed to execute kubectl config use-context", e)
+            "kubectl could not be started (is it on PATH?): ${e.message}"
         }
+        if (error == null) {
+            LOG.info("Switched to context: ${info.context.name}")
+            KubeConfigWatcher.getInstance().refreshConfig()
+            return
+        }
+        LOG.warn("Failed to switch context: $error")
+        NotificationGroupManager.getInstance()
+            .getNotificationGroup("K8s Context Guard")
+            .createNotification("Could not switch to ${info.context.name}", error.trim(), NotificationType.ERROR)
+            .notify(project)
     }
 
     override fun update(e: AnActionEvent) {
@@ -91,5 +100,9 @@ class SwitchContextAction : AnAction() {
 
     companion object {
         private val LOG = Logger.getInstance(SwitchContextAction::class.java)
+
+        /** Contexts classified as production, or by a rule with "confirm actions", ask before switching. */
+        fun needsConfirmation(info: ContextInfo): Boolean =
+            info.requiresConfirmation || info.environment == Environment.PRODUCTION
     }
 }

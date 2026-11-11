@@ -1,50 +1,52 @@
 package com.jakubjirak.k8sguard.config
 
-import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.application.ApplicationManager
+import com.jakubjirak.k8sguard.settings.K8sGuardSettings
 import java.io.File
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
 /**
- * Locates kubeconfig files on the system.
- * Supports KUBECONFIG environment variable and default ~/.kube/config location.
+ * Locates kubeconfig files the way kubectl does: the path override from Settings first,
+ * then every existing file listed in `KUBECONFIG`, then `~/.kube/config`.
  */
 object KubeConfigLocator {
-
-    private val LOG = Logger.getInstance(KubeConfigLocator::class.java)
 
     private const val DEFAULT_FILENAME = "config"
     private const val KUBE_DIR = ".kube"
     private const val KUBECONFIG_ENV = "KUBECONFIG"
 
-    fun getConfigPaths(): List<Path> {
-        val envValue = System.getenv(KUBECONFIG_ENV)
-        if (!envValue.isNullOrBlank()) {
-            val separator = if (System.getProperty("os.name").lowercase().contains("win")) ";" else ":"
-            val paths = envValue.split(separator)
-                .map { Paths.get(it.trim()) }
-                .filter { it.toFile().exists() }
-            if (paths.isNotEmpty()) {
-                LOG.info("Using KUBECONFIG paths: $paths")
-                return paths
-            }
+    fun getConfigPaths(): List<Path> = resolvePaths(
+        override = settingsOverride(),
+        kubeconfigEnv = System.getenv(KUBECONFIG_ENV),
+        home = System.getProperty("user.home"),
+        pathSeparator = File.pathSeparator,
+    )
+
+    /** Pure resolution logic; [exists] is injectable for tests. */
+    fun resolvePaths(
+        override: String?,
+        kubeconfigEnv: String?,
+        home: String,
+        pathSeparator: String,
+        exists: (Path) -> Boolean = { Files.isRegularFile(it) },
+    ): List<Path> {
+        override?.trim()?.takeIf { it.isNotEmpty() }?.let { path ->
+            return listOf(Paths.get(path)).filter(exists)
         }
-
-        val defaultPath = getDefaultConfigPath()
-        if (defaultPath.toFile().exists()) {
-            return listOf(defaultPath)
-        }
-
-        LOG.info("No kubeconfig found")
-        return emptyList()
+        val fromEnv = kubeconfigEnv.orEmpty().split(pathSeparator)
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
+            .map { Paths.get(it) }
+            .filter(exists)
+            .distinct()
+        if (fromEnv.isNotEmpty()) return fromEnv
+        return listOf(Paths.get(home, KUBE_DIR, DEFAULT_FILENAME)).filter(exists)
     }
 
-    fun getDefaultConfigPath(): Path {
-        val home = System.getProperty("user.home")
-        return Paths.get(home, KUBE_DIR, DEFAULT_FILENAME)
-    }
+    fun getDefaultConfigPath(): Path = Paths.get(System.getProperty("user.home"), KUBE_DIR, DEFAULT_FILENAME)
 
-    fun getPrimaryConfigFile(): File? {
-        return getConfigPaths().firstOrNull()?.toFile()
-    }
+    private fun settingsOverride(): String? =
+        if (ApplicationManager.getApplication() != null) K8sGuardSettings.getInstance().kubeconfigPathOverride else null
 }

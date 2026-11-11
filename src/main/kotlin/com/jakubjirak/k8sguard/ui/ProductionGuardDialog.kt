@@ -20,7 +20,7 @@ class ProductionGuardDialog(private val contextInfo: ContextInfo) : DialogWrappe
     init {
         title = "⚠️ Production Context Warning"
         setOKButtonText("Continue — I know what I'm doing")
-        setCancelButtonText("Switch Away")
+        setCancelButtonText("Cancel")
         init()
     }
 
@@ -33,7 +33,7 @@ class ProductionGuardDialog(private val contextInfo: ContextInfo) : DialogWrappe
 
         val contextLabel = JBLabel(
             "<html><div style='text-align:center; margin:10px;'>" +
-                "You are about to work on:<br/>" +
+                "You are about to switch kubectl to:<br/>" +
                 "<b style='font-size:12pt;'>${contextInfo.context.name}</b><br/>" +
                 "<br/>" +
                 "Cluster: <b>${contextInfo.context.cluster}</b><br/>" +

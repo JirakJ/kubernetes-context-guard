@@ -14,13 +14,19 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Monitors kubeconfig file(s) for changes and notifies listeners.
- * Uses polling (2s interval) since kubeconfig changes are external to the IDE.
+ * Uses polling (2s interval) since kubeconfig changes are external to the IDE. All files from
+ * the Settings override / `KUBECONFIG` are merged like kubectl does.
  */
 @Service(Service.Level.APP)
 class KubeConfigWatcher : Disposable {
 
     private var timer: Timer? = null
-    private var lastModified: Long = 0
+
+    // Written by the polling thread, read on the EDT.
+    @Volatile
+    private var lastStamp: List<Pair<String, Long>> = emptyList()
+
+    @Volatile
     private var lastConfig: KubeConfig? = null
     private val listeners = CopyOnWriteArrayList<ContextChangeListener>()
 
@@ -64,31 +70,27 @@ class KubeConfigWatcher : Disposable {
 
     fun getCurrentConfig(): KubeConfig? = lastConfig
 
+    /** Re-reads all kubeconfig files and notifies listeners when the current context changed. */
+    @Synchronized
     fun refreshConfig(): KubeConfig? {
-        val configFile = KubeConfigLocator.getPrimaryConfigFile() ?: return null
-        val config = KubeConfigParser.parse(configFile)
-        if (config != null) {
-            val previousContext = lastConfig?.currentContext
-            lastConfig = config
-            lastModified = configFile.lastModified()
-
-            if (previousContext != null && previousContext != config.currentContext) {
-                notifyListeners(config)
-            } else if (previousContext == null) {
-                notifyListeners(config)
-            }
-        }
+        val files = KubeConfigLocator.getConfigPaths().map { it.toFile() }
+        lastStamp = stampOf(files)
+        val config = KubeConfig.merge(files.mapNotNull { KubeConfigParser.parse(it) }) ?: return null
+        val previous = lastConfig
+        lastConfig = config
+        if (previous == null || previous.currentContext != config.currentContext) notifyListeners(config)
         return config
     }
 
     private fun checkForChanges() {
-        val configFile = KubeConfigLocator.getPrimaryConfigFile() ?: return
-        val currentModified = configFile.lastModified()
-        if (currentModified != lastModified) {
+        val files = KubeConfigLocator.getConfigPaths().map { it.toFile() }
+        if (stampOf(files) != lastStamp) {
             LOG.info("Kubeconfig changed, reloading")
             refreshConfig()
         }
     }
+
+    private fun stampOf(files: List<File>): List<Pair<String, Long>> = files.map { it.path to it.lastModified() }
 
     private fun notifyListeners(config: KubeConfig) {
         ApplicationManager.getApplication().invokeLater {
